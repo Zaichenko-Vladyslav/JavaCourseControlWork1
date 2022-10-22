@@ -1,10 +1,8 @@
 package com.company;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.SQLOutput;
 
 public class Main {
 
@@ -12,7 +10,7 @@ public class Main {
 
         String text = new String(Files.readAllBytes(Paths.get("/Users/Vladyslav/Desktop/Harry.txt")));
 
-        String cleanerText = text
+        String cleanText = text
                 .toLowerCase()
                 .replaceAll("\\.", "")
                 .replaceAll(",", "")
@@ -24,13 +22,15 @@ public class Main {
                 .replaceAll("\\)", "")
                 .replaceAll("\\?", "");
 
-        // System.out.println(cleanerText);
+        // System.out.println(cleanText);
 
-        // Finding the longest word in the above text. First variant.
+        // Find the longest word in the text above. First variant.
 
         String words[] = text.split("[^a-zA-Z]");
+
         int i, size = words.length;
         int iMax = -1, iMaxLength = -1;
+
         for (i = 0; i < size; ++i)
             if (!"".equals(words[i]) && words[i].length() > iMaxLength) {
                 iMax = i;
@@ -38,34 +38,35 @@ public class Main {
             }
 
         if (iMax == -1)
-            System.err.println("String has no contains words");
+            System.err.println("String does not contains words");
         else
             System.out.println("Word index = " + iMax + ";\tMax: " + words[iMax]);
 
-        // Finding the longest word in the above text. Second variant.
+        // Finding the longest word in the text above. Second variant.
 
         String longest = "";
 
-        for (int l=0; l < words.length; l++) {
-            if ( words[l].length() > longest.length() ) {
+        for (int l = 0; l < words.length; l++) {
+            if (words[l].length() > longest.length()) {
                 longest = words[l];
             }
         }
 
         System.out.println("Max: " + longest);
 
-        // Count the lines where the word "Harry" is met.
+        // Count lines where the word "Harry" is met.
 
-        String[] harryLines = text.split("\\n");
+        String[] lines = text.split("\\n");
 
-        int harry = 0;
-        for (int x = 0; x < harryLines.length; x++) {
-            if (harryLines[x].contains("Harry")) {
-                harry++;
+        int counter = 0;
+
+        for (int x = 0; x < lines.length; x++) {
+            if (lines[x].contains("Harry")) {
+                counter++;
             }
         }
 
-        System.out.println("The word Harry occurs in " + harry + " lines in the book.");
+        System.out.println("The word Harry occurs in " + counter + " lines in the book.");
 
         // Take array of distinct words from Harry Potter. Create an array of hashes.
 
@@ -76,7 +77,9 @@ public class Main {
                 distinktString += words[j] + " ";
             }
         }
+
         String[] distrinctArray = distinktString.split(" ");
+
         for (int j = 0; j < distrinctArray.length; j++) {
             System.out.println(distrinctArray[j].hashCode());
         }
@@ -84,18 +87,21 @@ public class Main {
         // Count the intersections.
 
         int counterHash = 0;
+
         for (int s = 0; s < distrinctArray.length; s++) {
             for (int z = s + 1; z < distrinctArray.length; z++) {
                 if (distrinctArray[s].equals(distrinctArray[z])) {
-                    counterHash ++;
+                    counterHash++;
                 }
             }
         }
-        System.out.println("Кількість однакових хешів = " + counterHash);
-        if ( counterHash == 0 )
-            System.out.println("Серед хешів збігів не виявлено");
+
+        System.out.println("Same hashes counter = " + counterHash);
+
+        if (counterHash == 0)
+            System.out.println("No same hashes");
         else {
-            System.out.println("Серед хешів виявлено збіги");
+            System.out.println("Same hashes found");
         }
     }
 }
